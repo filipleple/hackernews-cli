@@ -6,6 +6,10 @@ import html
 from bs4 import BeautifulSoup
 import json
 import os
+from rich.panel import Panel
+from rich.console import Console
+
+console = Console()
 
 CACHE_FILE = "cache.json"
 
@@ -89,11 +93,17 @@ def sanitize_comment_text(comment_text):
     return soup.get_text()
 
 def print_comments(comments_stack):
-    for comment in comments_stack:
-        if ("by" in comment) and ("text" in comment):
-            print("@"+comment['by'])
-            print(sanitize_comment_text(comment['text']))
-            print("-----")
+    for c in comments_stack:
+        if not c or c.get("dead") or c.get("deleted"):
+            continue
+        by = c.get("by") or "unknown"
+        text = c.get("text") or ""
+        body = sanitize_comment_text(text).strip()
+        if not body:
+            continue
+        title = f"@{by}"
+        subtitle = f"id: {c.get('id','')}"
+        console.print(Panel(body, title=title, subtitle=subtitle, expand=True))
 
 def fetch_story_comments(story, cache):
     ids = story.get("kids") or []
@@ -114,11 +124,10 @@ def get_newest_story(cache, with_comments=False):
         logger.error("Could not retrieve story for item ID %s", max_item_id)
         return
 
-    print("-----------")
-    print(story['title'])
-    if "url" in story:
-        print(story['url'])
-    print("-----------")
+    story_title = story['title']
+    story_url = story['url']
+    header = story_title if not story_url else f"{story_title}\n[dim]{story_url}[/]"
+    console.print(Panel(header, title="Hacker News", expand=True))
 
     if with_comments:
         comments = fetch_story_comments(story, cache)
