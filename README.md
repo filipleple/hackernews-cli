@@ -37,10 +37,10 @@ python hn.py get_newest_story
 Example output:
 
 ```
------------
-Zig's Lovely Syntax
-https://matklad.github.io/2025/08/09/zigs-lovely-syntax.html
------------
+╭──────────────────────────── Hacker News ─────────────────────────────╮
+│ Google paid a $250K reward for a bug                                 │
+│ https://issues.chromium.org/issues/412578726                         │
+╰──────────────────────────────────────────────────────────────────────╯
 ```
 
 ### Fetch newest story with top-level comments
@@ -52,16 +52,27 @@ python hn.py get_newest_story --with_comments
 Example output:
 
 ```
------------
-Zig's Lovely Syntax
-https://matklad.github.io/2025/08/09/zigs-lovely-syntax.html
------------
-@username
-This is a comment...
------
-@anotheruser
-Another comment...
------
+╭──────────────────────────── Hacker News ─────────────────────────────╮
+│ Google paid a $250K reward for a bug                                 │
+│ https://issues.chromium.org/issues/412578726                         │
+╰──────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────── @dig1 ────────────────────────────────╮
+│ Sandbox escape with high-quality report in Chrome: $250k [1], yet    │
+│ Mozilla will offer you $20k [2] for that...                          │
+│                                                                      │
+│ [1] https://bughunters.google.com/about/rules/chrome-friends/574...  │
+│                                                                      │
+│ [2] https://www.mozilla.org/en-US/security/client-bug-bounty/        │
+╰──────────────────────────── id: 44861630 ────────────────────────────╯
+╭────────────────────────────── @brohee ───────────────────────────────╮
+│ He had a pretty reliable exploit on the most used browser, pretty    │
+│ sure it he could have gotten more tax free on the black market.      │
+│                                                                      │
+│ Now, with EDR widely deployed it's likely that the exploit usage     │
+│ ends up being caught sooner than later, but pretty sure some         │
+│ dictatorship intelligence agency would have found all those          │
+│ journalists deep compromise worthwhile...                            │
+╰──────────────────────────── id: 44861556 ────────────────────────────╯
 ```
 
 ### Enable debug output
