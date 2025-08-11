@@ -9,6 +9,9 @@ import os
 from rich.panel import Panel
 from rich.console import Console
 
+session = requests.Session()
+session.headers.update({"Accept-Encoding": "gzip, deflate", "Connection": "keep-alive"})
+
 console = Console()
 
 CACHE_FILE = "cache.json"
@@ -63,7 +66,7 @@ def fetch_item(item_id, cache):
 
     url = f"https://hacker-news.firebaseio.com/v0/item/{item_id}.json?print=pretty"
     try:
-        r = requests.get(url)
+        r = session.get(url, timeout=15)
         r.raise_for_status()
         data = r.json()
         cache[key] = data
